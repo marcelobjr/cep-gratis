@@ -1,8 +1,10 @@
 <?php
 namespace JansenFelipe\CepGratis;
+
 use Exception;
 use Goutte\Client;
 use JansenFelipe\Utils\Utils as Utils;
+
 class CepGratis {
     /**
      * Metodo para realizar a consulta no Correios Mobile
@@ -18,7 +20,7 @@ class CepGratis {
         $crawler 	= $client->request('POST', 'http://m.correios.com.br/movel/buscaCepConfirma.do', [
             'cepEntrada'  => Utils::unmask($cep),
             'tipoCep'=>'All',
-			'metodo'=>'buscarCep'
+	    'metodo'=>'buscarCep'
         ]);
         // Verifica se a <div class="erro"> contem no resultado
         // O @ para caso de um erro no filter
@@ -49,6 +51,6 @@ class CepGratis {
         $endereco['cidade'] = $separado[0];
         $endereco['uf']     = $separado[1];
         
-        return str_replace('&nbsp;', '', array_map('htmlentities', array_map('trim', $endereco)));
+        return array_map('trim', $endereco);
     }
 }
